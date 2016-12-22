@@ -352,7 +352,8 @@
     mobile: false,
     selectOnTab: false,
     dropdownAlignRight: false,
-    windowPadding: 0
+    windowPadding: 0,
+    isOpenOptionValueFilter: true
   };
 
   Selectpicker.prototype = {
@@ -1426,6 +1427,14 @@
             $hideItems = $searchBase.find('a').not(':a' + that._searchStyle() + '("' + normalizeToBase(that.$searchbox.val()) + '")');
           } else {
             $hideItems = $searchBase.find('a').not(':' + that._searchStyle() + '("' + that.$searchbox.val() + '")');
+          }
+          
+          if( that.options.isOpenOptionValueFilter ){
+            that.$element.find('option').map( function(i, v){
+              if( $(v).val().match( that.options.searchAccentInsensitive ? normalizeToBase(that.$searchbox.val()) : that.$searchbox.val()) ){
+                that.$lis.eq(i).removeClass('hide');
+              }
+            } );
           }
 
           if ($hideItems.length === $searchBase.length) {
